@@ -1,0 +1,29 @@
+<% quiz = Quiz.where( 'id >= ?', rand(Quiz.first.id..Quiz.last.id) ).first %>
+<h1>Quiz App</h1>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    // ボタンをクリックした場合
+    $("#btn").click(function () {
+      <% quiz.trycount = quiz.trycount + 1 %>
+
+        // フォームの値を取得
+        str = $("#answer").val();
+        if (str == "<%= quiz.answer %>") {
+          alert("正解!");
+          <% quiz.correctcount = quiz.correctcount + 1 %>
+        } else {
+          alert("正解は、<%= quiz.answer %>でした...");
+        }
+    });
+});
+</script>
+
+<h2><%= quiz.title %></h2>
+<p><%= quiz.description %></p>
+<p>正解率：<%= quiz.correctcount %> / <%= quiz.trycount %></p>
+
+
+<input type="text" name="answer" id="answer" value="" />
+<input type="button" id="btn" name="btn" value="解答" />
